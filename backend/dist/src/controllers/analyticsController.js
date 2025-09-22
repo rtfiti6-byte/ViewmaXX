@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.exportAnalyticsData = exports.getPerformanceMetrics = exports.getEngagementAnalytics = exports.getTrafficAnalytics = exports.getAudienceAnalytics = exports.getRevenueAnalytics = exports.getChannelAnalytics = exports.getVideoAnalytics = exports.getUserAnalytics = exports.recordAnalyticsEvent = void 0;
+const recordAnalyticsEvent = () => { };
+exports.recordAnalyticsEvent = recordAnalyticsEvent;
+const getUserAnalytics = () => { };
+exports.getUserAnalytics = getUserAnalytics;
+const getVideoAnalytics = () => { };
+exports.getVideoAnalytics = getVideoAnalytics;
+const getChannelAnalytics = () => { };
+exports.getChannelAnalytics = getChannelAnalytics;
+const getRevenueAnalytics = () => { };
+exports.getRevenueAnalytics = getRevenueAnalytics;
+const getAudienceAnalytics = () => { };
+exports.getAudienceAnalytics = getAudienceAnalytics;
+const getTrafficAnalytics = () => { };
+exports.getTrafficAnalytics = getTrafficAnalytics;
+const getEngagementAnalytics = () => { };
+exports.getEngagementAnalytics = getEngagementAnalytics;
+const getPerformanceMetrics = () => { };
+exports.getPerformanceMetrics = getPerformanceMetrics;
+const exportAnalyticsData = () => { };
+exports.exportAnalyticsData = exportAnalyticsData;
+//# sourceMappingURL=analyticsController.js.map

@@ -1,0 +1,11 @@
+export declare const recordAnalyticsEvent: () => void;
+export declare const getUserAnalytics: () => void;
+export declare const getVideoAnalytics: () => void;
+export declare const getChannelAnalytics: () => void;
+export declare const getRevenueAnalytics: () => void;
+export declare const getAudienceAnalytics: () => void;
+export declare const getTrafficAnalytics: () => void;
+export declare const getEngagementAnalytics: () => void;
+export declare const getPerformanceMetrics: () => void;
+export declare const exportAnalyticsData: () => void;
+//# sourceMappingURL=analyticsController.d.ts.map

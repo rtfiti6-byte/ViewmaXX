@@ -1,0 +1,20 @@
+// Stub for userController
+export const getProfile = () => {};
+export const updateProfile = () => {};
+export const getUserById = () => {};
+export const getUserVideos = () => {};
+export const getUserPlaylists = () => {};
+export const subscribe = () => {};
+export const unsubscribe = () => {};
+export const getSubscriptions = () => {};
+export const getSubscribers = () => {};
+export const uploadAvatar = () => {};
+export const getWatchHistory = () => {};
+export const getWatchLater = () => {};
+export const addToWatchLater = () => {};
+export const removeFromWatchLater = () => {};
+export const getNotifications = () => {};
+export const markNotificationRead = () => {};
+export const markAllNotificationsRead = () => {};
+export const getUserAnalytics = () => {};
+export const getMonetizationData = () => {};

@@ -1,0 +1,27 @@
+// Stub for adminController
+export const getDashboardStats = () => {};
+export const getUsers = () => {};
+export const getUserById = () => {};
+export const updateUser = () => {};
+export const banUser = () => {};
+export const unbanUser = () => {};
+export const suspendUser = () => {};
+export const unsuspendUser = () => {};
+export const verifyUser = () => {};
+export const unverifyUser = () => {};
+export const getVideos = () => {};
+export const getVideoById = () => {};
+export const approveVideo = () => {};
+export const rejectVideo = () => {};
+export const deleteVideo = () => {};
+export const getReports = () => {};
+export const getReportById = () => {};
+export const resolveReport = () => {};
+export const dismissReport = () => {};
+export const getAnalytics = () => {};
+export const getSystemLogs = () => {};
+export const getSettings = () => {};
+export const updateSettings = () => {};
+export const getMonetizationStats = () => {};
+export const approveMonetization = () => {};
+export const rejectMonetization = () => {};

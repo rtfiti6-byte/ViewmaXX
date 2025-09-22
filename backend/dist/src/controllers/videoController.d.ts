@@ -1,0 +1,15 @@
+export declare const uploadVideo: () => void;
+export declare const getVideos: () => void;
+export declare const getVideoById: () => void;
+export declare const updateVideo: () => void;
+export declare const deleteVideo: () => void;
+export declare const likeVideo: () => void;
+export declare const dislikeVideo: () => void;
+export declare const shareVideo: () => void;
+export declare const getTrendingVideos: () => void;
+export declare const getRecommendedVideos: () => void;
+export declare const incrementViewCount: () => void;
+export declare const reportVideo: () => void;
+export declare const getVideoAnalytics: () => void;
+export declare const getVideoComments: () => void;
+//# sourceMappingURL=videoController.d.ts.map
