@@ -1,0 +1,377 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(uuid())
+  email           String   @unique
+  username        String   @unique
+  displayName     String?
+  avatar          String?
+  bio             String?
+  isVerified      Boolean  @default(false)
+  isEmailVerified Boolean  @default(false)
+  isBanned        Boolean  @default(false)
+  isSuspended     Boolean  @default(false)
+  role            UserRole @default(USER)
+  password        String?
+  refreshToken    String?
+  emailVerificationToken String?
+  passwordResetToken      String?
+  passwordResetExpires    DateTime?
+  
+  // OAuth fields
+  googleId        String?
+  githubId        String?
+  
+  // Profile stats
+  subscribersCount Int @default(0)
+  subscribingCount Int @default(0)
+  totalViews      Int @default(0)
+  totalVideos     Int @default(0)
+  
+  // Monetization
+  isMonetizationEnabled Boolean @default(false)
+  totalEarnings         Float   @default(0)
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastLogin DateTime?
+  
+  // Relations
+  videos              Video[]
+  likes               Like[]
+  dislikes            Dislike[]
+  comments            Comment[]
+  subscriptions       Subscription[] @relation("UserSubscriptions")
+  subscribers         Subscription[] @relation("UserSubscribers")
+  playlists           Playlist[]
+  watchHistory        WatchHistory[]
+  watchLater          WatchLater[]
+  notifications       Notification[]
+  reports             Report[]
+  analytics           AnalyticsEvent[]
+  
+  @@map("users")
+}
+
+model Video {
+  id          String      @id @default(uuid())
+  title       String
+  description String?
+  thumbnail   String?
+  duration    Int         // Duration in seconds
+  fileSize    Int         // Size in bytes
+  quality     String[]    // Available qualities ["360p", "720p", "1080p"]
+  originalUrl String      // S3 URL for original video
+  processedUrls Json      // URLs for different qualities
+  hlsUrl      String?     // HLS playlist URL
+  dashUrl     String?     // DASH manifest URL
+  status      VideoStatus @default(PROCESSING)
+  visibility  VideoVisibility @default(PUBLIC)
+  
+  // Content
+  tags        String[]
+  category    String?
+  language    String      @default("en")
+  
+  // Stats
+  views       Int         @default(0)
+  likes       Int         @default(0)
+  dislikes    Int         @default(0)
+  comments    Int         @default(0)
+  shares      Int         @default(0)
+  
+  // Monetization
+  isMonetizable       Boolean @default(false)
+  monetizationEnabled Boolean @default(false)
+  adRevenue          Float   @default(0)
+  
+  // Moderation
+  isReported      Boolean @default(false)
+  isCopyrightClaimed Boolean @default(false)
+  moderationStatus   ModerationStatus @default(APPROVED)
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  publishedAt DateTime?
+  
+  // Relations
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes     Like[]
+  dislikes  Dislike[]
+  comments  Comment[]
+  reports   Report[]
+  watchHistory WatchHistory[]
+  watchLater   WatchLater[]
+  playlistVideos PlaylistVideo[]
+  analytics    AnalyticsEvent[]
+  
+  @@map("videos")
+}
+
+model Like {
+  id     String @id @default(uuid())
+  userId String
+  videoId String
+  createdAt DateTime @default(now())
+  
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, videoId])
+  @@map("likes")
+}
+
+model Dislike {
+  id     String @id @default(uuid())
+  userId String
+  videoId String
+  createdAt DateTime @default(now())
+  
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, videoId])
+  @@map("dislikes")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  likes     Int      @default(0)
+  dislikes  Int      @default(0)
+  isEdited  Boolean  @default(false)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  userId   String
+  videoId  String
+  parentId String? // For replies
+  
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video    Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies  Comment[] @relation("CommentReplies")
+  
+  @@map("comments")
+}
+
+model Subscription {
+  id         String   @id @default(uuid())
+  subscriberId String
+  subscribedToId String
+  isNotificationEnabled Boolean @default(true)
+  createdAt  DateTime @default(now())
+  
+  subscriber   User @relation("UserSubscriptions", fields: [subscriberId], references: [id], onDelete: Cascade)
+  subscribedTo User @relation("UserSubscribers", fields: [subscribedToId], references: [id], onDelete: Cascade)
+  
+  @@unique([subscriberId, subscribedToId])
+  @@map("subscriptions")
+}
+
+model Playlist {
+  id          String            @id @default(uuid())
+  title       String
+  description String?
+  thumbnail   String?
+  visibility  PlaylistVisibility @default(PUBLIC)
+  videosCount Int               @default(0)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playlistVideos PlaylistVideo[]
+  
+  @@map("playlists")
+}
+
+model PlaylistVideo {
+  id         String   @id @default(uuid())
+  position   Int      // Position in playlist
+  addedAt    DateTime @default(now())
+  
+  playlistId String
+  videoId    String
+  
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  video    Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@unique([playlistId, videoId])
+  @@map("playlist_videos")
+}
+
+model WatchHistory {
+  id        String   @id @default(uuid())
+  watchedAt DateTime @default(now())
+  duration  Int      // How long user watched (in seconds)
+  
+  userId  String
+  videoId String
+  
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@map("watch_history")
+}
+
+model WatchLater {
+  id      String   @id @default(uuid())
+  addedAt DateTime @default(now())
+  
+  userId  String
+  videoId String
+  
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, videoId])
+  @@map("watch_later")
+}
+
+model Notification {
+  id       String           @id @default(uuid())
+  type     NotificationType
+  title    String
+  message  String
+  isRead   Boolean          @default(false)
+  data     Json?            // Additional data for the notification
+  createdAt DateTime        @default(now())
+  
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("notifications")
+}
+
+model Report {
+  id       String     @id @default(uuid())
+  reason   ReportReason
+  details  String?
+  status   ReportStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  resolvedAt DateTime?
+  
+  userId  String
+  videoId String
+  
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@map("reports")
+}
+
+model AnalyticsEvent {
+  id        String        @id @default(uuid())
+  type      AnalyticsType
+  data      Json
+  ipAddress String?
+  userAgent String?
+  country   String?
+  createdAt DateTime      @default(now())
+  
+  userId  String?
+  videoId String?
+  
+  user  User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  video Video? @relation(fields: [videoId], references: [id], onDelete: SetNull)
+  
+  @@map("analytics_events")
+}
+
+model Settings {
+  id    String @id @default(uuid())
+  key   String @unique
+  value Json
+  updatedAt DateTime @updatedAt
+  
+  @@map("settings")
+}
+
+// Enums
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  PROCESSED
+  FAILED
+  PUBLISHED
+}
+
+enum VideoVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+}
+
+enum PlaylistVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
+enum NotificationType {
+  NEW_VIDEO
+  NEW_SUBSCRIBER
+  NEW_COMMENT
+  NEW_LIKE
+  VIDEO_PROCESSED
+  MONETIZATION_ENABLED
+  ADMIN_MESSAGE
+}
+
+enum ReportReason {
+  SPAM
+  INAPPROPRIATE_CONTENT
+  COPYRIGHT
+  HARASSMENT
+  VIOLENCE
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  INVESTIGATING
+  RESOLVED
+  DISMISSED
+}
+
+enum AnalyticsType {
+  VIDEO_VIEW
+  VIDEO_LIKE
+  VIDEO_DISLIKE
+  VIDEO_COMMENT
+  VIDEO_SHARE
+  USER_REGISTER
+  USER_LOGIN
+  VIDEO_UPLOAD
+  SUBSCRIPTION
+}
