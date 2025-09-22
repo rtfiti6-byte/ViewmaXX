@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
+  // Removed deprecated experimental.appDir
   images: {
     domains: [
       'localhost',
@@ -40,10 +38,11 @@ const nextConfig = {
     return config;
   },
   async rewrites() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     return [
       {
         source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+        destination: apiUrl ? `${apiUrl}/:path*` : '/api/:path*',
       },
     ];
   },
