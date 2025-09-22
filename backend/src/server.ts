@@ -165,18 +165,29 @@ server.listen(PORT, () => {
   logger.info(`🌍 Environment: ${process.env.NODE_ENV}`);
 });
 
+
 // Graceful shutdown
 process.on('SIGINT', async () => {
   logger.info('🛑 Shutting down gracefully...');
-  
   server.close(() => {
     logger.info('✅ HTTP server closed');
   });
-  
   await redisClient.quit();
   logger.info('✅ Redis connection closed');
-  
   process.exit(0);
+});
+
+// Top-level error handlers for diagnostics
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  logger.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
 });
 
 export { io };
