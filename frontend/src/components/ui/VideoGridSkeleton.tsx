@@ -11,3 +11,4 @@ const VideoGridSkeleton: React.FC = () => {
 };
 
 export default VideoGridSkeleton;
+export { VideoGridSkeleton };
