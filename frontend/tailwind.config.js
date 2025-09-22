@@ -10,6 +10,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        border: {
+          DEFAULT: '#e5e7eb', // Tailwind's gray-200
+        },
         // Brand colors
         primary: {
           50: '#eff6ff',
