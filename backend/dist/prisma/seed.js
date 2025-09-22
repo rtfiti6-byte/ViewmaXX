@@ -4,6 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const UserRole = {
+    USER: 'USER',
+    ADMIN: 'ADMIN',
+    MODERATOR: 'MODERATOR',
+};
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma = new client_1.PrismaClient();
 async function main() {
@@ -17,7 +22,7 @@ async function main() {
             username: 'admin',
             displayName: 'ViewmaXX Admin',
             password: adminPassword,
-            role: client_1.UserRole.ADMIN,
+            role: UserRole.ADMIN,
             isVerified: true,
             isEmailVerified: true,
             bio: 'ViewmaXX Platform Administrator',

@@ -3,6 +3,7 @@ interface CustomError extends Error {
     statusCode?: number;
     status?: string;
     isOperational?: boolean;
+    code?: number;
 }
 export declare const errorHandler: (err: CustomError, req: Request, res: Response, next: NextFunction) => void;
 export declare const catchAsync: (fn: Function) => (req: Request, res: Response, next: NextFunction) => void;

@@ -5,4 +5,6 @@ export declare const updatePlaylist: () => void;
 export declare const deletePlaylist: () => void;
 export declare const addVideoToPlaylist: () => void;
 export declare const removeVideoFromPlaylist: () => void;
+export declare const reorderPlaylistVideos: () => void;
+export declare const getUserPlaylists: () => void;
 //# sourceMappingURL=playlistController.d.ts.map

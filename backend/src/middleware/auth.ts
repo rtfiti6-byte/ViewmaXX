@@ -27,20 +27,16 @@ declare global {
 const signToken = (id: string, email: string, role: string): string => {
   return jwt.sign(
     { id, email, role },
-    process.env.JWT_SECRET!,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN || '15m',
-    }
+    process.env.JWT_SECRET as string,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '15m' } as jwt.SignOptions
   );
 };
 
 const signRefreshToken = (id: string): string => {
   return jwt.sign(
     { id },
-    process.env.JWT_REFRESH_SECRET!,
-    {
-      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
-    }
+    process.env.JWT_REFRESH_SECRET as string,
+    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' } as jwt.SignOptions
   );
 };
 

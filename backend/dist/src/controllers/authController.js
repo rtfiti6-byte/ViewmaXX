@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.socialLogin = exports.resetPassword = exports.verifyEmail = exports.logout = exports.refreshToken = exports.register = exports.login = void 0;
+exports.githubAuth = exports.googleAuth = exports.forgotPassword = exports.socialLogin = exports.resetPassword = exports.verifyEmail = exports.logout = exports.refreshToken = exports.register = exports.login = void 0;
 const login = () => { };
 exports.login = login;
 const register = () => { };
@@ -15,4 +15,10 @@ const resetPassword = () => { };
 exports.resetPassword = resetPassword;
 const socialLogin = () => { };
 exports.socialLogin = socialLogin;
+const forgotPassword = () => { };
+exports.forgotPassword = forgotPassword;
+const googleAuth = () => { };
+exports.googleAuth = googleAuth;
+const githubAuth = () => { };
+exports.githubAuth = githubAuth;
 //# sourceMappingURL=authController.js.map

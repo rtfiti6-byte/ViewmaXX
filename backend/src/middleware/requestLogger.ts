@@ -3,7 +3,7 @@ import { logger, loggerHelpers } from '../config/logger';
 
 export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
-  
+
   // Log request details
   logger.info('Incoming Request', {
     method: req.method,
@@ -14,17 +14,10 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     timestamp: new Date().toISOString(),
   });
 
-  // Override res.end to capture response time
-  const originalEnd = res.end;
-  res.end = function(...args: any[]) {
+  res.on('finish', () => {
     const responseTime = Date.now() - start;
-    
-    // Log response details
     loggerHelpers.logRequest(req, res, responseTime);
-    
-    // Call original end function
-    originalEnd.apply(this, args);
-  };
+  });
 
   next();
 };
@@ -45,8 +38,7 @@ export const logEvent = (eventType: string) => {
 // Middleware to log video-related events
 export const logVideoEvent = (eventType: string) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const videoId = req.params.videoId || req.params.id;
-    
+    const videoId = (req.params.videoId || req.params.id || '').toString();
     loggerHelpers.logVideo(eventType, videoId, req.user?.id, {
       params: req.params,
       query: req.query,

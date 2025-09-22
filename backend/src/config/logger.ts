@@ -23,7 +23,7 @@ const colors = {
 winston.addColors(colors);
 
 // Define which transports the logger will use
-const transports = [
+const transports: any[] = [
   // Console transport
   new winston.transports.Console({
     format: winston.format.combine(

@@ -6,11 +6,7 @@ const errorHandler_1 = require("./errorHandler");
 const handleValidationErrors = (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        const errorMessages = errors.array().map(error => ({
-            field: error.param,
-            message: error.msg,
-            value: error.value,
-        }));
+        const errorMessages = errors.array().map(error => error);
         return next(new errorHandler_1.AppError('Validation failed', 400));
     }
     next();

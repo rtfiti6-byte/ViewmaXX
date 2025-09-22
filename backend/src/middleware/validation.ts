@@ -11,11 +11,7 @@ export const handleValidationErrors = (
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(error => ({
-      field: error.param,
-      message: error.msg,
-      value: error.value,
-    }));
+    const errorMessages = errors.array().map(error => error);
     
     return next(new AppError('Validation failed', 400));
   }

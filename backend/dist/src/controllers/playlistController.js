@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeVideoFromPlaylist = exports.addVideoToPlaylist = exports.deletePlaylist = exports.updatePlaylist = exports.getPlaylistById = exports.getPlaylists = exports.createPlaylist = void 0;
+exports.getUserPlaylists = exports.reorderPlaylistVideos = exports.removeVideoFromPlaylist = exports.addVideoToPlaylist = exports.deletePlaylist = exports.updatePlaylist = exports.getPlaylistById = exports.getPlaylists = exports.createPlaylist = void 0;
 const createPlaylist = () => { };
 exports.createPlaylist = createPlaylist;
 const getPlaylists = () => { };
@@ -15,4 +15,8 @@ const addVideoToPlaylist = () => { };
 exports.addVideoToPlaylist = addVideoToPlaylist;
 const removeVideoFromPlaylist = () => { };
 exports.removeVideoFromPlaylist = removeVideoFromPlaylist;
+const reorderPlaylistVideos = () => { };
+exports.reorderPlaylistVideos = reorderPlaylistVideos;
+const getUserPlaylists = () => { };
+exports.getUserPlaylists = getUserPlaylists;
 //# sourceMappingURL=playlistController.js.map

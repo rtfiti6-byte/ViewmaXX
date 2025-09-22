@@ -3,4 +3,7 @@ export declare const getComments: () => void;
 export declare const deleteComment: () => void;
 export declare const likeComment: () => void;
 export declare const dislikeComment: () => void;
+export declare const createComment: () => void;
+export declare const updateComment: () => void;
+export declare const getCommentReplies: () => void;
 //# sourceMappingURL=commentController.d.ts.map

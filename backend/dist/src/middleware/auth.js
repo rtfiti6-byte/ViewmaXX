@@ -11,14 +11,10 @@ const redis_1 = require("../config/redis");
 const logger_1 = require("../config/logger");
 const prisma = new client_1.PrismaClient();
 const signToken = (id, email, role) => {
-    return jsonwebtoken_1.default.sign({ id, email, role }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN || '15m',
-    });
+    return jsonwebtoken_1.default.sign({ id, email, role }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '15m' });
 };
 const signRefreshToken = (id) => {
-    return jsonwebtoken_1.default.sign({ id }, process.env.JWT_REFRESH_SECRET, {
-        expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
-    });
+    return jsonwebtoken_1.default.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' });
 };
 const generateTokens = async (user) => {
     const accessToken = signToken(user.id, user.email, user.role);

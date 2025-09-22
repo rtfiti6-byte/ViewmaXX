@@ -5,4 +5,7 @@ export declare const logout: () => void;
 export declare const verifyEmail: () => void;
 export declare const resetPassword: () => void;
 export declare const socialLogin: () => void;
+export declare const forgotPassword: () => void;
+export declare const googleAuth: () => void;
+export declare const githubAuth: () => void;
 //# sourceMappingURL=authController.d.ts.map

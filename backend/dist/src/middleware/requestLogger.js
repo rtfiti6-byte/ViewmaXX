@@ -12,12 +12,10 @@ const requestLogger = (req, res, next) => {
         userId: req.user?.id,
         timestamp: new Date().toISOString(),
     });
-    const originalEnd = res.end;
-    res.end = function (...args) {
+    res.on('finish', () => {
         const responseTime = Date.now() - start;
         logger_1.loggerHelpers.logRequest(req, res, responseTime);
-        originalEnd.apply(this, args);
-    };
+    });
     next();
 };
 exports.requestLogger = requestLogger;
@@ -35,7 +33,7 @@ const logEvent = (eventType) => {
 exports.logEvent = logEvent;
 const logVideoEvent = (eventType) => {
     return (req, res, next) => {
-        const videoId = req.params.videoId || req.params.id;
+        const videoId = (req.params.videoId || req.params.id || '').toString();
         logger_1.loggerHelpers.logVideo(eventType, videoId, req.user?.id, {
             params: req.params,
             query: req.query,

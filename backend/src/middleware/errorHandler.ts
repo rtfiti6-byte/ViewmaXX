@@ -5,6 +5,7 @@ interface CustomError extends Error {
   statusCode?: number;
   status?: string;
   isOperational?: boolean;
+  code?: number;
 }
 
 const handleCastErrorDB = (err: any): CustomError => {

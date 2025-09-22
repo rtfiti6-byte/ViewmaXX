@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dislikeComment = exports.likeComment = exports.deleteComment = exports.getComments = exports.addComment = void 0;
+exports.getCommentReplies = exports.updateComment = exports.createComment = exports.dislikeComment = exports.likeComment = exports.deleteComment = exports.getComments = exports.addComment = void 0;
 const addComment = () => { };
 exports.addComment = addComment;
 const getComments = () => { };
@@ -11,4 +11,10 @@ const likeComment = () => { };
 exports.likeComment = likeComment;
 const dislikeComment = () => { };
 exports.dislikeComment = dislikeComment;
+const createComment = () => { };
+exports.createComment = createComment;
+const updateComment = () => { };
+exports.updateComment = updateComment;
+const getCommentReplies = () => { };
+exports.getCommentReplies = getCommentReplies;
 //# sourceMappingURL=commentController.js.map
