@@ -13,8 +13,8 @@ export const metadata = {
   title: process.env.NEXT_PUBLIC_DEFAULT_TITLE || 'ViewmaXX - Video Sharing Platform',
   description: process.env.NEXT_PUBLIC_DEFAULT_DESCRIPTION || 'Upload, share, and discover amazing videos on ViewmaXX',
   keywords: process.env.NEXT_PUBLIC_DEFAULT_KEYWORDS || 'video sharing, upload videos, watch videos, streaming',
-  authors: [{ name: 'MiniMax Agent' }],
-  creator: 'MiniMax Agent',
+  authors: [{ name: 'DAVID MTWEVE' }],
+  creator: 'DAVID MTWEVE',
   publisher: 'ViewmaXX',
   formatDetection: {
     email: false,
